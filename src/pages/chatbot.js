@@ -99,9 +99,9 @@ export async function renderChatbot(options = {}) {
     const data = await res.json();
     aiEnabled = data.ai_configured;
     const mode = aiEnabled ? '<iconify-icon icon="ci:bolt" style="vertical-align: sub;"></iconify-icon> IA activa' : '<iconify-icon icon="ci:terminal" style="vertical-align: sub;"></iconify-icon> Modo keywords';
-    statusEl.innerHTML = `<span class="status-dot online"></span><span>${mode} · ${data.auto_responses_loaded} reglas</span>`;
+    if (statusEl) statusEl.innerHTML = `<span class="status-dot online"></span><span>${mode} · ${data.auto_responses_loaded} reglas</span>`;
   } catch {
-    statusEl.innerHTML = `<span class="status-dot offline"></span><span>Bot desconectado</span>`;
+    if (statusEl) statusEl.innerHTML = `<span class="status-dot offline"></span><span>Bot desconectado</span>`;
     showToast('El servidor del chatbot no está corriendo. Ejecuta: npm run chatbot', 'warning');
   }
 
@@ -239,21 +239,24 @@ export async function renderChatbot(options = {}) {
   });
 
   // Clear chat
-  document.getElementById('btn-clear-chat').addEventListener('click', async () => {
-    // Clear AI session
-    try {
-      await fetch(`${CHATBOT_URL}/api/chat/clear`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: chatSessionId }),
-      });
-    } catch {}
-    chatSessionId = 'simulator-' + Date.now();
-    messagesEl.innerHTML = `
-      <div class="wa-date-divider"><span>Hoy</span></div>
-      <div class="wa-system-msg"><span>🔒 Chat limpiado y sesión reiniciada. Escribe un mensaje para probar el bot.</span></div>
-    `;
-  });
+  const btnClearChat = document.getElementById('btn-clear-chat');
+  if (btnClearChat) {
+    btnClearChat.addEventListener('click', async () => {
+      // Clear AI session
+      try {
+        await fetch(`${CHATBOT_URL}/api/chat/clear`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId: chatSessionId }),
+        });
+      } catch {}
+      chatSessionId = 'simulator-' + Date.now();
+      messagesEl.innerHTML = `
+        <div class="wa-date-divider"><span>Hoy</span></div>
+        <div class="wa-system-msg"><span>🔒 Chat limpiado y sesión reiniciada. Escribe un mensaje para probar el bot.</span></div>
+      `;
+    });
+  }
 
   // Focus input
   inputEl.focus();
