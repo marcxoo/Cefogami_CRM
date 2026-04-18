@@ -338,3 +338,22 @@
 .status-dot.offline {
   background: var(--danger);
 }
+
+/* Standalone Simulator Overrides */
+.standalone-simulator {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+}
+
+@media (max-width: 768px) {
+  .standalone-simulator {
+    height: 100dvh !important; /* Fix for mobile address bars */
+    min-height: 100dvh !important;
+  }
+}

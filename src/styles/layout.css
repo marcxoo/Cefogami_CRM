@@ -356,3 +356,23 @@
     padding: var(--space-md);
   }
 }
+
+/* Standalone Mode Overrides */
+.standalone-body {
+  background-color: var(--bg-body);
+  overflow: hidden;
+}
+
+.standalone-mode {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  margin-left: 0 !important;
+}
+
+.standalone-mode .page-content {
+  padding: 0 !important;
+  height: 100vh;
+  max-width: 100%;
+}

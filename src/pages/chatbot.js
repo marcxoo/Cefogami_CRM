@@ -3,10 +3,11 @@ import { showToast } from '../components/toast.js';
 const CHATBOT_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : window.location.origin;
 let chatSessionId = 'simulator-' + Date.now();
 
-export async function renderChatbot() {
+export async function renderChatbot(options = {}) {
+  const isStandalone = options.standalone || false;
   const container = document.getElementById('page-content');
-  container.innerHTML = `
-    <div class="animate-fade-in" id="chatbot-page">
+  
+  const titleSection = isStandalone ? '' : `
       <div class="page-title-section">
         <div>
           <h2 class="page-title"><iconify-icon icon="ci:terminal"></iconify-icon> Simulador de Chat</h2>
@@ -20,8 +21,13 @@ export async function renderChatbot() {
           </div>
         </div>
       </div>
+  `;
 
-      <div class="chat-simulator">
+  container.innerHTML = `
+    <div class="animate-fade-in" id="chatbot-page">
+      ${titleSection}
+      
+      <div class="chat-simulator ${isStandalone ? 'standalone-simulator' : ''}">
         <!-- Chat Header (WhatsApp style) -->
         <div class="wa-chat-header">
           <div class="wa-chat-avatar">🍳</div>

@@ -39,6 +39,7 @@ const pages = {
   templates: renderTemplates,
   autoresponses: renderAutoResponses,
   chatbot: renderChatbot,
+  'chatbot-standalone': (options) => renderChatbot({ ...options, standalone: true }),
   analytics: renderAnalytics,
   settings: renderSettings,
 };
@@ -49,9 +50,21 @@ async function navigateTo(page, options = {}) {
   if (!pages[page]) page = 'dashboard';
   currentPage = page;
 
-  // Update sidebar & header
-  renderSidebar(page);
-  renderHeader(page);
+  const isStandalone = page === 'chatbot-standalone';
+
+  // Toggle layout visibility
+  document.getElementById('sidebar').style.display = isStandalone ? 'none' : '';
+  document.getElementById('app-header').style.display = isStandalone ? 'none' : '';
+  
+  if (isStandalone) {
+    document.getElementById('main-content').classList.add('standalone-mode');
+    document.body.classList.add('standalone-body');
+  } else {
+    document.getElementById('main-content').classList.remove('standalone-mode');
+    document.body.classList.remove('standalone-body');
+    renderSidebar(page);
+    renderHeader(page);
+  }
 
   // Show loading
   const content = document.getElementById('page-content');
