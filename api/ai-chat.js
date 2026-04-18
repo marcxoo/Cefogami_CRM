@@ -5,14 +5,30 @@
  * ═══════════════════════════════════════════════════════
  */
 
-const GEMINI_MODEL = 'gemini-2.5-flash';
+// --- MULTI-AI LOAD BALANCING ---
+// Available fast models from Google. They have separate quotas, doubling/tripling raw capacity!
+const AVAILABLE_MODELS = [
+  'gemini-2.5-flash',
+  'gemini-1.5-flash'
+];
 
-// Get AI Key dynamically so it resolves correctly in Vercel Serverless
+// Get AI Key and Model dynamically. Supports multiple comma-separated API keys.
 function getGeminiConfig() {
-  const key = (process.env.GEMINI_API_KEY || '').trim();
+  const rawKeyString = (process.env.GEMINI_API_KEY || '').trim();
+  
+  if (!rawKeyString) return { key: '', url: '' };
+
+  // 1. Support multiple API keys separated by commas for load balancing
+  const keys = rawKeyString.split(',').map(k => k.trim()).filter(Boolean);
+  const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+  // 2. Distribute load among multiple fast models to evade model-specific limits
+  const randomModel = AVAILABLE_MODELS[Math.floor(Math.random() * AVAILABLE_MODELS.length)];
+
   return {
-    key,
-    url: `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`
+    key: randomKey,
+    modelName: randomModel,
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${randomModel}:generateContent?key=${randomKey}`
   };
 }
 
