@@ -138,13 +138,6 @@ export async function renderChatbot(options = {}) {
 
       addMessage(data.response, 'received', sourceLabel);
 
-      // Show source indicator
-      if (data.source === 'ai') {
-        addSystemMessage(`<iconify-icon icon="ci:bolt"></iconify-icon> Respuesta generada por Inteligencia Artificial${data.sessionInfo ? ` · ${data.sessionInfo.messageCount} msgs en sesión` : ''}`);
-      } else if (data.source === 'keyword') {
-        addSystemMessage(`<iconify-icon icon="ci:terminal"></iconify-icon> Coincidió con plantilla: ${data.template}`);
-      }
-
     } catch (err) {
       hideTyping();
       addSystemMessage('<iconify-icon icon="ci:close-md"></iconify-icon> Error: No se pudo conectar con el servidor del chatbot');
