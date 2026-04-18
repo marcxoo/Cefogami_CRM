@@ -488,26 +488,33 @@ app.post('/api/chat/clear', (req, res) => {
 // START SERVER
 // ═══════════════════════════════════════════════════════
 
-app.listen(PORT, async () => {
-  console.log('');
-  console.log('═══════════════════════════════════════════════════');
-  console.log('  🍳 GastroConnect - WhatsApp Chatbot Server');
-  console.log('  📍 Centro De Formación Gastronómico Milagro');
-  console.log('═══════════════════════════════════════════════════');
-  console.log(`  🌐 Server:    http://localhost:${PORT}`);
-  console.log(`  📡 Webhook:   http://localhost:${PORT}/webhook`);
-  console.log(`  ❤️  Health:    http://localhost:${PORT}/api/health`);
-  console.log(`  🔑 Verify:    ${VERIFY_TOKEN}`);
-  console.log(`  💬 WhatsApp:  ${WHATSAPP_TOKEN ? '✅ Configured' : '⚠️  Not configured'}`);
-  console.log(`  🧠 AI (Gemini): ${process.env.GEMINI_API_KEY ? '✅ Configured' : '⚠️  Not configured'}`);
-  console.log('═══════════════════════════════════════════════════');
-  console.log('');
+if (require.main === module) {
+  app.listen(PORT, async () => {
+    console.log('');
+    console.log('═══════════════════════════════════════════════════');
+    console.log('  🍳 GastroConnect - WhatsApp Chatbot Server');
+    console.log('  📍 Centro De Formación Gastronómico Milagro');
+    console.log('═══════════════════════════════════════════════════');
+    console.log(`  🌐 Server:    http://localhost:${PORT}`);
+    console.log(`  📡 Webhook:   http://localhost:${PORT}/webhook`);
+    console.log(`  ❤️  Health:    http://localhost:${PORT}/api/health`);
+    console.log(`  🔑 Verify:    ${VERIFY_TOKEN}`);
+    console.log(`  💬 WhatsApp:  ${WHATSAPP_TOKEN ? '✅ Configured' : '⚠️  Not configured'}`);
+    console.log(`  🧠 AI (Gemini): ${process.env.GEMINI_API_KEY ? '✅ Configured' : '⚠️  Not configured'}`);
+    console.log('═══════════════════════════════════════════════════');
+    console.log('');
 
-  // Initial cache load
-  await refreshCache();
-  
-  if (!process.env.GEMINI_API_KEY) {
-    console.log('⚠️  GEMINI_API_KEY not set. AI chat will use keyword fallback.');
-    console.log('   Get a free key at: https://aistudio.google.com/apikey\n');
-  }
-});
+    // Initial cache load
+    await refreshCache();
+    
+    if (!process.env.GEMINI_API_KEY) {
+      console.log('⚠️  GEMINI_API_KEY not set. AI chat will use keyword fallback.');
+      console.log('   Get a free key at: https://aistudio.google.com/apikey\n');
+    }
+  });
+} else {
+  // When imported as a module (e.g. Vercel serverless)
+  refreshCache();
+}
+
+module.exports = app;

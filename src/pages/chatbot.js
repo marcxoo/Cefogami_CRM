@@ -1,6 +1,6 @@
 import { showToast } from '../components/toast.js';
 
-const CHATBOT_URL = 'http://localhost:3000';
+const CHATBOT_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : window.location.origin;
 let chatSessionId = 'simulator-' + Date.now();
 
 export async function renderChatbot() {
