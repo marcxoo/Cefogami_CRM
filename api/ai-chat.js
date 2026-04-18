@@ -100,7 +100,13 @@ Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** �
 5. Programa de Gastronomía Profesional
 - Duración: 1 año
 - Horarios: Lunes y martes de 16:00 a 18:00 (Inicio: 4 de mayo) o 13:00 a 15:00 (Inicio: 18 de mayo)
-- Beneficios: Certificación PROFESIONAL avalada por el Ministerio de Trabajo, incluye ingredientes, equipos modernos.
+- ¿Qué ofrecemos?
+  🏆 Certificación profesional reconocida nacional e internacionalmente, emitida por el Ministerio de Trabajo.
+  ✅ Clases 100% prácticas y presenciales con instructores calificados.
+  ✅ Ingredientes 100% incluidos.
+  ✅ Equipos modernos, aulas climatizadas y uso de utensilios profesionales.
+  ✅ Material didáctico digitalizado.
+  ✅ No necesitas conocimientos previos.
 
 ## Requisitos de inscripción:
 - No se necesita experiencia previa para los cursos.
@@ -211,10 +217,6 @@ function postProcessResponse(text) {
   if (isAboutLocation && !text.includes(GOOGLE_MAPS_LINK)) {
     text += '\n\n📍 Encuéntranos en Google Maps:\n' + GOOGLE_MAPS_LINK;
   }
-
-  // Convert raw URL to clickable HTML anchor
-  const anchor = `<a href="${GOOGLE_MAPS_LINK}" target="_blank">Google Maps</a>`;
-  text = text.replace(new RegExp(GOOGLE_MAPS_LINK, 'g'), anchor);
 
   return text.trim();
 }
