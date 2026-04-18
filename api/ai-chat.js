@@ -8,8 +8,7 @@
 // --- MULTI-AI LOAD BALANCING ---
 // Available fast models from Google. They have separate quotas, doubling/tripling raw capacity!
 const AVAILABLE_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-1.5-flash'
+  'gemini-2.5-flash'
 ];
 
 // Get AI Key and Model dynamically. Supports multiple comma-separated API keys.
