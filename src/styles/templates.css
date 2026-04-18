@@ -1,0 +1,53 @@
+/* Templates page styles */
+.template-card {
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.template-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.template-inactive {
+  opacity: 0.5;
+}
+
+.template-preview {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-height: 140px;
+  overflow: hidden;
+  position: relative;
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-muted);
+}
+
+.template-preview::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(transparent, var(--bg-tertiary));
+}
+
+.template-vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--space-md);
+}
+
+.template-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-muted);
+}

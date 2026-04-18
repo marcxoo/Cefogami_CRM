@@ -1,0 +1,40 @@
+/* Settings styles */
+.schedule-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-muted);
+}
+
+.schedule-row:last-of-type { border-bottom: none; }
+
+.schedule-day {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 140px;
+}
+
+.schedule-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.schedule-times {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.schedule-time {
+  width: 110px !important;
+  padding: 6px 10px !important;
+  font-size: 0.8125rem !important;
+}
+
+.schedule-time:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
