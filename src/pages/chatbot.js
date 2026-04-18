@@ -31,7 +31,7 @@ export async function renderChatbot(options = {}) {
         <!-- Chat Header (WhatsApp style) -->
         <div class="wa-chat-header">
           <div class="wa-chat-avatar">
-            <img src="https://i.imgur.com/S6NMFyK.png" alt="CEFOGAMI Logo" />
+            <img src="https://i.imgur.com/qs8B9Ou.png" alt="CEFOGAMI Logo" />
           </div>
           <div class="wa-chat-info">
             <div class="wa-chat-name">Centro Gastronómico Milagro</div>
