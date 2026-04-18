@@ -57,7 +57,7 @@ function buildSystemPrompt(templates, businessSettings) {
 
   return `INFORMACIÓN CRÍTICA: El enlace de Google Maps es https://maps.app.goo.gl/VwDULKePHtDUe54JA. Úsalo SIEMPRE que se hable de ubicación.
 
-Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** 🍳, una escuela profesional de gastronomía ubicada en Milagro, Ecuador. Tu nombre es "CefoBot".
+Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** 🍳, una escuela profesional de gastronomía ubicada en Milagro, Ecuador. Te identificas como parte de la *familia CEFOGAMI*.
 
 ## Tu personalidad:
 - Eres amable, profesional y entusiasta sobre la gastronomía
@@ -136,7 +136,7 @@ ${templateKnowledge}
 6. SIEMPRE, sin excepción, que alguien pregunte por la ubicación o dirección, proporciona la dirección física y el enlace de Google Maps: https://maps.app.goo.gl/VwDULKePHtDUe54JA
 7. PROHIBIDO mencionar Facebook. He eliminado Facebook de tu conocimiento para evitar confusiones.
 8. NO USES formato Markdown para links (ej: [texto](url)). Escribe el link directamente para que WhatsApp lo reconozca.
-9. Mantén las respuestas breves y claras, máximo 3-4 párrafos.`;
+9. Mantén las respuestas breves y claras, máximo 4-5 párrafos cortos. Evita redundancias para asegurar que el mensaje llegue completo.`;
 }
 
 /**
@@ -254,7 +254,7 @@ async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
         temperature: 0.7,
         topP: 0.9,
         topK: 40,
-        maxOutputTokens: 1000,
+        maxOutputTokens: 2000,
       },
       safetySettings: [
         { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
