@@ -5,9 +5,16 @@
  * ═══════════════════════════════════════════════════════
  */
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = 'gemini-2.5-flash';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+// Get AI Key dynamically so it resolves correctly in Vercel Serverless
+function getGeminiConfig() {
+  const key = process.env.GEMINI_API_KEY || '';
+  return {
+    key,
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`
+  };
+}
 
 // Conversation histories per phone/session (in-memory)
 const conversationHistories = new Map();
@@ -195,7 +202,8 @@ function postProcessResponse(text) {
  * Send message to Gemini and get AI response
  */
 async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
-  if (!GEMINI_API_KEY) {
+  const geminiConfig = getGeminiConfig();
+  if (!geminiConfig.key) {
     return {
       success: false,
       response: null,
@@ -233,7 +241,7 @@ async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
       ]
     };
 
-    const response = await fetch(GEMINI_URL, {
+    const response = await fetch(geminiConfig.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
