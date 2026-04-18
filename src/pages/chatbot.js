@@ -30,7 +30,9 @@ export async function renderChatbot(options = {}) {
       <div class="chat-simulator ${isStandalone ? 'standalone-simulator' : ''}">
         <!-- Chat Header (WhatsApp style) -->
         <div class="wa-chat-header">
-          <div class="wa-chat-avatar">🍳</div>
+          <div class="wa-chat-avatar">
+            <img src="https://i.imgur.com/hRk8vGq.png" alt="CEFOGAMI Logo" />
+          </div>
           <div class="wa-chat-info">
             <div class="wa-chat-name">Centro Gastronómico Milagro</div>
             <div class="wa-chat-subtitle" id="wa-typing"><iconify-icon icon="ci:terminal" style="vertical-align: middle;"></iconify-icon> Bot activo · Escribe como cliente</div>
