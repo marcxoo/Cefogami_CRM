@@ -16,7 +16,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
-const { chatWithAI, clearHistory, getSessionInfo } = require('./ai-chat.cjs');
+const { chatWithAI, clearHistory, getSessionInfo } = require('./ai-chat.js');
 
 const app = express();
 app.use(cors());
