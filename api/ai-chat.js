@@ -123,10 +123,10 @@ ${templateKnowledge}
 3. Siempre mantén el tono de un centro educativo profesional.
 4. Si alguien pregunta por temas no relacionados con gastronomía/el centro, amablemente redirige la conversación.
 5. FORMATO DE TEXTO Y ESPACIADO (REGLA DE VIDA O MUERTE): 
-   - PROHIBIDO EL USO DE NEGRITAS (* o **). No pongas NADA en negrita. Usa solo texto plano.
-   - REGRELA DE ESPACIADO: Debes dejar DOS (2) saltos de línea (una línea totalmente vacía) entre el final de un curso y el inicio del siguiente para que no se vea amontonado.
-   - Usa guiones (-) para las viñetas de información de cada curso.
-   - Mantén un lenguaje limpio y aireado. No amontones la información.
+   - Usa UN SOLO asterisco para negritas ÚNICAMENTE en los Títulos de los Cursos (*1. Nombre del Curso*). NUNCA uses doble asteriscos (**).
+   - JAMÁS pongas negritas en la palabras "Duración", "Inicio", "Horario" ni en el resto del texto.
+   - REGLA DE ESPACIADO: Debes dejar DOS (2) saltos de línea (una línea totalmente vacía) entre el final de un curso y el inicio del siguiente para que no se vea amontonado. Esto es vital para el UX.
+   - Usa guiones (-) para las viñetas de información. No amontones la información.
 6. SIEMPRE, sin excepción, que alguien pregunte por la ubicación o dirección, proporciona la dirección física y el enlace de Google Maps: https://maps.app.goo.gl/VwDULKePHtDUe54JA
 7. PROHIBIDO mencionar Facebook. He eliminado Facebook de tu conocimiento para evitar confusiones.
 8. NO USES formato Markdown para links (ej: [texto](url)). Escribe el link directamente para que WhatsApp lo reconozca.
@@ -201,9 +201,8 @@ function postProcessResponse(text) {
   // Clean up double blank lines left by removed lines
   text = text.replace(/\n{3,}/g, '\n\n');
   
-  // Aggressively remove any bolding markers (* or **) to ensure plain text as requested
-  text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
-  text = text.replace(/\*([^*]+)\*/g, '$1');
+  // Convert standard Markdown bold (**) into single asterisk bold (*)
+  text = text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
   
   // Check if response is about location/directions
   const isAboutLocation = /ubicaci|direcci|llegar|donde\s+(est|queda)|mapa|encontrar/i.test(text);
@@ -253,7 +252,7 @@ async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
         temperature: 0.7,
         topP: 0.9,
         topK: 40,
-        maxOutputTokens: 500,
+        maxOutputTokens: 1000,
       },
       safetySettings: [
         { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
