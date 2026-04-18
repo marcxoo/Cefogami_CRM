@@ -118,7 +118,6 @@ Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** �
 - No se necesita experiencia previa para los cursos.
 - Cédula de identidad (original y copia)
 - 2 fotos tamaño carnet
-- Certificado médico
 - Comprobante de pago de matrícula
 
 ## Formas de pago:
