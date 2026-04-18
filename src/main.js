@@ -58,9 +58,11 @@ async function navigateTo(page, options = {}) {
   
   if (isStandalone) {
     document.getElementById('main-content').classList.add('standalone-mode');
+    document.body.classList.add('is-standalone-view');
     document.body.classList.add('standalone-body');
   } else {
     document.getElementById('main-content').classList.remove('standalone-mode');
+    document.body.classList.remove('is-standalone-view');
     document.body.classList.remove('standalone-body');
     renderSidebar(page);
     renderHeader(page);
