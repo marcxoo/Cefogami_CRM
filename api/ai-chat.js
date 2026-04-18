@@ -125,7 +125,10 @@ ${templateKnowledge}
 2. NUNCA des información que no esté en tu contexto. Si no sabes, di que pueden consultar directamente.
 3. Siempre mantén el tono de un centro educativo profesional.
 4. Si alguien pregunta por temas no relacionados con gastronomía/el centro, amablemente redirige la conversación.
-5. Usa formato de WhatsApp: *negritas*, _cursivas_, para resaltar info importante.
+5. FORMATO DE TEXTO (REGLA CRÍTICA): 
+   - Usa UN SOLO asterisco para negritas: *texto*. NUNCA uses doble asterisco (**texto**).
+   - Usa negritas ÚNICAMENTE para resaltar: Nombres de cursos, Precios y Horarios.
+   - NUNCA pongas en negrita palabras al azar, oraciones completas, saludos, ni signos de puntuación.
 6. SIEMPRE, sin excepción, que alguien pregunte por la ubicación o dirección, proporciona la dirección física y el enlace de Google Maps: https://maps.app.goo.gl/VwDULKePHtDUe54JA
 7. PROHIBIDO mencionar Facebook. He eliminado Facebook de tu conocimiento para evitar confusiones.
 8. NO USES formato Markdown para links (ej: [texto](url)). Escribe el link directamente para que WhatsApp lo reconozca.
@@ -199,6 +202,9 @@ function postProcessResponse(text) {
   
   // Clean up double blank lines left by removed lines
   text = text.replace(/\n{3,}/g, '\n\n');
+  
+  // Force convert standard Markdown bold (**) into WhatsApp bold (*)
+  text = text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
   
   // Check if response is about location/directions
   const isAboutLocation = /ubicaci|direcci|llegar|donde\s+(est|queda)|mapa|encontrar/i.test(text);
