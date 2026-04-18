@@ -77,31 +77,30 @@ Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** �
 - **Email**: ${businessSettings.email || ''}
 
 ## Programas y Cursos Disponibles:
-*1. Escuela de Parrilla*
+1. Escuela de Parrilla
 - Duración: 3 meses | Inicio: 9 de mayo de 2026
 - Horario: Sábados de 09:00 a 14:00
 - Beneficios: Aprendizaje desde cero, técnicas de parrilla. Incluye ingredientes/equipos.
-- Requisitos: No se necesita experiencia. Cupos limitados.
 
-*2. Curso de Coctelería Profesional*
+2. Curso de Coctelería Profesional
 - Duración: 3 meses | Inicio: 6 de mayo
 - Horario: Miércoles (09:00 a 13:00 o 14:00 a 18:00)
 - Beneficios: Técnicas creativas, incluye ingredientes. Sin experiencia previa.
 
-*3. Curso de Coctelería y Piqueos*
+3. Curso de Coctelería y Piqueos
 - Duración: 3 meses | Inicio: 6 de mayo
 - Horario: Miércoles (09:00 a 13:00 o 14:00 a 18:00)
-- Beneficios: Preparación de cócteles y piqueos. Incluye ingredientes. Cupos limitados.
+- Beneficios: Preparación de cócteles y piqueos. Incluye ingredientes.
 
-*4. Curso de Panadería desde Cero*
+4. Curso de Panadería desde Cero
 - Duración: 3 meses | Inicio: Miércoles 6 de mayo
 - Horario: 09:00 a 13:00
-- Beneficios: Formación y emprendimiento. Incluye ingredientes. Sin experiencia.
+- Beneficios: Formación y emprendimiento. Incluye ingredientes.
 
-*5. Programa de Gastronomía Profesional*
+5. Programa de Gastronomía Profesional
 - Duración: 1 año
 - Horarios: Lunes y martes de 16:00 a 18:00 (Inicio: 4 de mayo) o 13:00 a 15:00 (Inicio: 18 de mayo)
-- Beneficios: Certificación M.T., incluye ingredientes, equipos modernos. Cupos limitados.
+- Beneficios: Certificación M.T., incluye ingredientes, equipos modernos.
 
 ## Requisitos de inscripción:
 - No se necesita experiencia previa para los cursos.
@@ -123,11 +122,11 @@ ${templateKnowledge}
 2. NUNCA des información que no esté en tu contexto. Si no sabes, di que pueden consultar directamente.
 3. Siempre mantén el tono de un centro educativo profesional.
 4. Si alguien pregunta por temas no relacionados con gastronomía/el centro, amablemente redirige la conversación.
-5. FORMATO DE TEXTO (REGLA CRÍTICA): 
-   - Usa UN SOLO asterisco para negritas en los Títulos de los Cursos (*Nombre del Curso*). NUNCA uses doble asterisco (**texto**).
-   - JAMÁS pongas negritas en la palabras "Duración", "Inicio", "Horario" ni en los datos de esas viñetas.
-   - JAMÁS pongas "Opción 1" u "Opción 2" en negritas.
-   - NUNCA pongas en negrita oraciones completas como "los cupos son limitados" ni palabras comunes en el medio de los párrafos.
+5. FORMATO DE TEXTO Y ESPACIADO (REGLA DE VIDA O MUERTE): 
+   - PROHIBIDO EL USO DE NEGRITAS (* o **). No pongas NADA en negrita. Usa solo texto plano.
+   - REGRELA DE ESPACIADO: Debes dejar DOS (2) saltos de línea (una línea totalmente vacía) entre el final de un curso y el inicio del siguiente para que no se vea amontonado.
+   - Usa guiones (-) para las viñetas de información de cada curso.
+   - Mantén un lenguaje limpio y aireado. No amontones la información.
 6. SIEMPRE, sin excepción, que alguien pregunte por la ubicación o dirección, proporciona la dirección física y el enlace de Google Maps: https://maps.app.goo.gl/VwDULKePHtDUe54JA
 7. PROHIBIDO mencionar Facebook. He eliminado Facebook de tu conocimiento para evitar confusiones.
 8. NO USES formato Markdown para links (ej: [texto](url)). Escribe el link directamente para que WhatsApp lo reconozca.
@@ -202,8 +201,9 @@ function postProcessResponse(text) {
   // Clean up double blank lines left by removed lines
   text = text.replace(/\n{3,}/g, '\n\n');
   
-  // Force convert standard Markdown bold (**) into WhatsApp bold (*)
-  text = text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
+  // Aggressively remove any bolding markers (* or **) to ensure plain text as requested
+  text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
+  text = text.replace(/\*([^*]+)\*/g, '$1');
   
   // Check if response is about location/directions
   const isAboutLocation = /ubicaci|direcci|llegar|donde\s+(est|queda)|mapa|encontrar/i.test(text);
