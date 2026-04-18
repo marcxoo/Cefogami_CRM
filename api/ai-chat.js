@@ -90,12 +90,18 @@ Eres el asistente virtual del **Centro de Formación Gastronómico Milagro** �
 3. Curso de Coctelería y Piqueos
 - Duración: 3 meses | Inicio: 6 de mayo
 - Horario: Miércoles (09:00 a 13:00 o 14:00 a 18:00)
-- Beneficios: Preparación de cócteles y piqueos. Incluye ingredientes.
+- ¿Qué ofrecemos?
+  ✅ No necesitas conocimientos previos
+  ✅ Todos los ingredientes son incluidos
+  ✅ 100% práctica y presencial
 
 4. Curso de Panadería desde Cero
 - Duración: 3 meses | Inicio: Miércoles 6 de mayo
 - Horario: 09:00 a 13:00
-- Beneficios: Formación y emprendimiento. Incluye ingredientes.
+- ¿Qué ofrecemos?
+  ✔️ 100% prácticas
+  ✔️ Ingredientes incluidos
+  ✔️ Desde cero, sin experiencia previa
 
 5. Programa de Gastronomía Profesional
 - Duración: 1 año
