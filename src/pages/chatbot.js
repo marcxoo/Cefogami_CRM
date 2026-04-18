@@ -50,19 +50,11 @@ export async function renderChatbot(options = {}) {
           <div class="wa-system-msg">
             <span>🔒 Los mensajes de esta simulación no se envían a WhatsApp real. Es solo una prueba local del chatbot.</span>
           </div>
-
-          <!-- Initial bot message -->
-          <div class="wa-msg wa-msg-received animate-fade-in">
-            <div class="wa-msg-bubble">
-              <div class="wa-msg-text">¡Hola! 👋 Bienvenido/a al Centro de Formación Gastronómico Milagro.\n\nSoy el asistente virtual. Puedes preguntarme por:\n\n📚 *Cursos* disponibles\n💰 *Precios* y planes de pago\n🕐 *Horarios* de clases\n📍 *Ubicación*\n📋 *Requisitos* de inscripción</div>
-              <div class="wa-msg-time"><iconify-icon icon="ci:terminal"></iconify-icon>&nbsp;Bot · ${new Date().toLocaleTimeString('es-EC', {hour: '2-digit', minute: '2-digit'})}</div>
-            </div>
-          </div>
         </div>
 
         <!-- Input Area -->
         <div class="wa-input-area">
-          <button class="wa-input-emoji" title="Sugerencias rápidas" id="btn-suggestions">😊</button>
+          <button class="wa-input-emoji" title="Sugerencias rápidas" id="btn-suggestions" style="display: none;">😊</button>
           <input type="text" class="wa-input-field" id="wa-input" placeholder="Escribe un mensaje como cliente..." autocomplete="off" />
           <button class="wa-send-btn" id="wa-send" title="Enviar">
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path></svg>
@@ -70,8 +62,8 @@ export async function renderChatbot(options = {}) {
         </div>
       </div>
 
-      <!-- Quick suggestions -->
-      <div class="chat-suggestions" id="chat-suggestions">
+      <!-- Quick suggestions (Hidden per user request) -->
+      <div class="chat-suggestions" id="chat-suggestions" style="display: none;">
         <p class="text-sm text-muted" style="margin-bottom: var(--space-sm);">💡 Prueba estos mensajes:</p>
         <div class="suggestions-grid">
           <button class="suggestion-chip" data-msg="Hola, buenas tardes">👋 Hola, buenas tardes</button>
