@@ -12,23 +12,25 @@ const AVAILABLE_MODELS = [
 ];
 
 // Get AI Key and Model dynamically. Supports multiple comma-separated API keys.
-function getGeminiConfig() {
+function getGeminiConfigs() {
   const rawKeyString = (process.env.GEMINI_API_KEY || '').trim();
   
-  if (!rawKeyString) return { key: '', url: '' };
+  if (!rawKeyString) return [];
 
   // 1. Support multiple API keys separated by commas for load balancing
   const keys = rawKeyString.split(',').map(k => k.trim()).filter(Boolean);
-  const randomKey = keys[Math.floor(Math.random() * keys.length)];
 
   // 2. Distribute load among multiple fast models to evade model-specific limits
   const randomModel = AVAILABLE_MODELS[Math.floor(Math.random() * AVAILABLE_MODELS.length)];
 
-  return {
-    key: randomKey,
+  const configs = keys.map(key => ({
+    key: key,
     modelName: randomModel,
-    url: `https://generativelanguage.googleapis.com/v1beta/models/${randomModel}:generateContent?key=${randomKey}`
-  };
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${randomModel}:generateContent?key=${key}`
+  }));
+
+  // Shuffle configs to spread load evenly
+  return configs.sort(() => Math.random() - 0.5);
 }
 
 // Conversation histories per phone/session (in-memory)
@@ -217,8 +219,8 @@ function postProcessResponse(text) {
  * Send message to Gemini and get AI response
  */
 async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
-  const geminiConfig = getGeminiConfig();
-  if (!geminiConfig.key) {
+  const configs = getGeminiConfigs();
+  if (configs.length === 0) {
     return {
       success: false,
       response: null,
@@ -256,35 +258,53 @@ async function chatWithAI(sessionId, userMessage, templates, businessSettings) {
       ]
     };
 
-    const response = await fetch(geminiConfig.url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-    });
+    let lastError = 'No keys available or all exhausted';
 
-    const data = await response.json();
+    // Loop through all shuffled API keys to provide failover/redundancy on Quota Exceeded error
+    for (const config of configs) {
+      const response = await fetch(config.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      });
 
-    if (data.error) {
-      console.error('❌ Gemini API error:', data.error.message);
-      return { success: false, response: null, error: data.error.message };
+      const data = await response.json();
+
+      if (data.error) {
+        lastError = data.error.message;
+        // If it's a quota or rate-limit error, we catch it and try the NEXT key in the array!
+        if (lastError.toLowerCase().includes('quota') || lastError.toLowerCase().includes('limit') || response.status === 429) {
+          console.log(`⚠️ Key quota exceeded or rate limited. Falling back to alternative key...`);
+          continue; // Move to the next config!
+        }
+        
+        // If it's a different harsh error (like invalid key), we also continue or maybe break? Better to continue trying.
+        console.error('❌ Gemini API error for key:', lastError);
+        continue;
+      }
+
+      let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!aiText) {
+         continue; // Try next key if this one silently choked
+      }
+
+      // ── Post-process: Force Google Maps link, remove Facebook ──
+      aiText = postProcessResponse(aiText);
+
+      // Add AI response to history
+      session.messages.push({
+        role: 'model',
+        parts: [{ text: aiText }]
+      });
+
+      // Break out of the loop and return successfully!
+      return { success: true, response: aiText, error: null };
     }
 
-    let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!aiText) {
-      return { success: false, response: null, error: 'No response from AI' };
-    }
-
-    // ── Post-process: Force Google Maps link, remove Facebook ──
-    aiText = postProcessResponse(aiText);
-
-    // Add AI response to history
-    session.messages.push({
-      role: 'model',
-      parts: [{ text: aiText }]
-    });
-
-    return { success: true, response: aiText, error: null };
+    // If loop ends without returning, ALL keys failed
+    console.error('❌ All AI load-balancing keys exhausted/failed. Final error:', lastError);
+    return { success: false, response: null, error: lastError };
 
   } catch (err) {
     console.error('❌ AI chat error:', err.message);
