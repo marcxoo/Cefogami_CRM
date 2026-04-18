@@ -9,7 +9,7 @@ const GEMINI_MODEL = 'gemini-2.5-flash';
 
 // Get AI Key dynamically so it resolves correctly in Vercel Serverless
 function getGeminiConfig() {
-  const key = process.env.GEMINI_API_KEY || '';
+  const key = (process.env.GEMINI_API_KEY || '').trim();
   return {
     key,
     url: `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`

@@ -474,6 +474,7 @@ app.post('/api/chat', async (req, res) => {
       'Puedes preguntarme por:\n📚 *Cursos*\n💰 *Precios*\n🕐 *Horarios*\n📍 *Ubicación*: https://maps.app.goo.gl/VwDULKePHtDUe54JA\n📋 *Inscripción*',
     source: 'default',
     sessionId: session,
+    aiError: aiResult?.error
   });
 });
 
